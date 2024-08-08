@@ -11,7 +11,7 @@ const Waveform: React.FC<WaveformProps> = ({ analyser }) => {
   useEffect(() => {
     if (!analyser) return;
 
-    const canvas = canvasRef.current;
+    const canvas = canvasRef.current!;
     const canvasContext = canvas!.getContext('2d')!;
     analyser.fftSize = 4096;
     const sampleRate = analyser.context.sampleRate;
