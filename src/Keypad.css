@@ -1,0 +1,40 @@
+/* src/Keypad.css */
+.keypad-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 0 auto 20px;
+  }
+  
+  .waveform {
+    margin: 0 auto 10px;
+  }
+  
+  .fourier {
+    margin: 0 auto 10px;
+  }
+  
+  .keypad button {
+    padding: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #963D5A;
+    transition: background-color 0.2s;
+  }
+  
+  .keypad button:hover {
+    background-color: #cd517a;
+  }
+  
+  canvas {
+    border: 1px solid #ccc;
+  }
+  
