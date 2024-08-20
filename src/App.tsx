@@ -15,20 +15,25 @@ const App: React.FC = () => {
     useEffect(() => {
         const matchMedia = window.matchMedia('(prefers-color-scheme: dark)');
 
-        const updateImageSrc = (e) => {
-            setInterferenceSrc(e.matches ? interferenceDark : interferenceLight);
-            setFourierSrc(e.matches ? fourierDark : fourierLight);
+        const updateImageSrc = (matches: boolean) => {
+            setInterferenceSrc(matches ? interferenceDark : interferenceLight);
+            setFourierSrc(matches ? fourierDark : fourierLight);
         };
 
         // Set the initial image based on the current color scheme
-        updateImageSrc(matchMedia);
+        updateImageSrc(matchMedia.matches);
+
+        // Event handler for changes in the color scheme
+        const handleColorSchemeChange = (e: MediaQueryListEvent) => {
+            updateImageSrc(e.matches);
+        };
 
         // Listen for changes in the color scheme
-        matchMedia.addEventListener('change', updateImageSrc);
+        matchMedia.addEventListener('change', handleColorSchemeChange);
 
         // Cleanup event listener on component unmount
         return () => {
-            matchMedia.removeEventListener('change', updateImageSrc);
+            matchMedia.removeEventListener('change', handleColorSchemeChange);
         };
     }, []);
 
