@@ -39,22 +39,22 @@ const App: React.FC = () => {
             <br></br>
             <h2>DTMF Signaling</h2>
             <p>
-                This principle is called <a href='https://en.wikipedia.org/wiki/Dtmf' target="_blank">Dual-Tone Multifrequency (DTMF) Signaling</a>. The driving principle behind it is the <a href='https://en.wikipedia.org/wiki/Fourier_transform' target='_blank'>Fourier Transform</a> (FT).
+                This principle is called <a href='https://en.wikipedia.org/wiki/Dtmf' target="_blank">Dual-Tone Multifrequency (DTMF) Signaling</a>. The driving principle behind DTMF is the use of pairs of audio frequencies to represent each key on a telephone keypad.
                 <br></br>
                 Here's a very quick rundown on how it works: The numbers and character on a keypad are arranged in the shape of a grid:
             </p>
             <img src={keypad} alt="A keypad showing DTMF signalling frequencies"></img>
             <p>
-                This means that when someone presses a number, two sound frequences will be emitted. The number 4, for example, emits the frequencies 770Hz and 1209Hz. When two frequencies are generated at the same time, they interfere with each other.
+                This means that when someone presses a number, two sound frequences will be emitted. The number 4, for example, emits the frequencies 770Hz and 1209Hz. When a number is pressed, two distinct frequencies are generated simultaneously, one from a specific row and one from a column. These frequencies combine to create a unique sound that represents the key pressed.
             </p>
             <img src={interferenceSrc} width={950} height={100}></img>
             <p></p>
             <p>
-                The resulting sound wave is what gets transmitted over the phone line when you press a button when on hold with your airline. In reality, however, the signal is not that clean due to other background and transmission noises. The airline needs to somehow regain the information that you pressed the number 4 from a pretty complex sound wave.
+                The resulting sound wave is what gets transmitted over the phone line when you press a button when on hold with your airline. In reality, however, the signal is not that clean due to other background and transmission noises. The airline's system analyzes the received signal and uses the Fourier Transform to identify the two dominant frequencies. Since each pair of frequencies corresponds uniquely to a specific key, the system can determine which number was pressed.
             </p>
             <h2>The Fourier Transform</h2>
             <p>
-                The waves above are all in the <b>time domain</b>, easy to recognize since the x-axis represents time. The fourier transform is an algorithm that transforms a sound wave from the time domain into the frequency domain:
+                The waves above are all in the <b>time domain</b>, easy to recognize since the x-axis represents time. The Fourier Transform is a mathematical technique that converts a signal from the time domain (where the x-axis represents time) to the frequency domain (where the x-axis represents frequency). This allows us to identify the individual frequencies that make up a complex sound wave:
             </p>
             <img src={fourierSrc} width={450} height={150}></img>
             <p>
