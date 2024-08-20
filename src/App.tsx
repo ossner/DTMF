@@ -11,6 +11,7 @@ const App: React.FC = () => {
         <div className="App">
             <h1 className='h1'>Why do Buttons Beep?</h1>
             <Keypad />
+            <br></br>
             <h2>DTMF Signaling</h2>
             <p>
                 This principle is called <a href='https://en.wikipedia.org/wiki/Dtmf' target="_blank">Dual-Tone Multifrequency (DTMF) Signaling</a>. The driving principle behind it is the <a href='https://en.wikipedia.org/wiki/Fourier_transform' target='_blank'>Fourier Transform</a> (FT).
