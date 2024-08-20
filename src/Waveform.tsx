@@ -1,5 +1,5 @@
 // src/Waveform.tsx
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 interface WaveformProps {
   analyser: AnalyserNode | null;
@@ -7,6 +7,27 @@ interface WaveformProps {
 
 const Waveform: React.FC<WaveformProps> = ({ analyser }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+
+  const [canvasWidth, setCanvasWidth] = useState(600);
+
+  useEffect(() => {
+      const updateCanvasSize = () => {
+          const screenWidth = window.innerWidth;
+          if (screenWidth < 600) {
+              setCanvasWidth(screenWidth * 0.9); // 90% of screen width for mobile
+          } else {
+              setCanvasWidth(600); // Fixed 400px for desktop
+          }
+      };
+
+      updateCanvasSize();
+      window.addEventListener('resize', updateCanvasSize);
+
+      return () => {
+          window.removeEventListener('resize', updateCanvasSize);
+      };
+  }, []);
 
   useEffect(() => {
     if (!analyser) return;
@@ -50,7 +71,9 @@ const Waveform: React.FC<WaveformProps> = ({ analyser }) => {
     draw();
   }, [analyser]);
 
-  return <canvas ref={canvasRef} width="400" height="100"></canvas>;
+  return (
+      <canvas ref={canvasRef} width={canvasWidth} height="100" style={{ width: `${canvasWidth}px` }} />
+  );
 };
 
 export default Waveform;

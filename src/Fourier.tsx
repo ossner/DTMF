@@ -1,55 +1,78 @@
-// src/Waveform.tsx
-import React, { useRef, useEffect } from 'react';
+// src/Fourier.tsx
+import React, { useRef, useEffect, useState } from 'react';
 
 interface WaveformProps {
-  analyser: AnalyserNode | null;
+    analyser: AnalyserNode | null;
 }
 
 const Waveform: React.FC<WaveformProps> = ({ analyser }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    if (!analyser) return;
+    const [canvasWidth, setCanvasWidth] = useState(600);
 
-    const canvas = canvasRef.current!;
-    const canvasContext = canvas!.getContext('2d')!;
-    analyser.fftSize = 4096;
-    const sampleRate = analyser.context.sampleRate;
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+    useEffect(() => {
+        const updateCanvasSize = () => {
+            const screenWidth = window.innerWidth;
+            if (screenWidth < 600) {
+                setCanvasWidth(screenWidth * 0.9); // 90% of screen width for mobile
+            } else {
+                setCanvasWidth(600); // Fixed 400px for desktop
+            }
+        };
 
-    const minFrequency = 500;
-    const maxFrequency = 5000;
+        updateCanvasSize();
+        window.addEventListener('resize', updateCanvasSize);
 
-    const minIndex = Math.floor(minFrequency / (sampleRate / analyser.fftSize));
-    const maxIndex = Math.floor(maxFrequency / (sampleRate / analyser.fftSize));
+        return () => {
+            window.removeEventListener('resize', updateCanvasSize);
+        };
+    }, []);
 
-    const draw = () => {
-      analyser.getByteFrequencyData(dataArray);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
 
-      canvasContext.clearRect(0, 0, canvas.width, canvas.height);
+    useEffect(() => {
+        if (!analyser) return;
 
-      const barWidth = (canvas.width / (maxIndex - minIndex)) * 2.5;
-      let barHeight;
-      let x = 0;
+        const canvas = canvasRef.current!;
+        const canvasContext = canvas!.getContext('2d')!;
+        analyser.fftSize = 4096;
+        const sampleRate = analyser.context.sampleRate;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
 
-      for (let i = minIndex; i <= maxIndex; i++) {
-        barHeight = dataArray[i]/1.5;
+        const minFrequency = 400;
+        const maxFrequency = 5000;
 
-        canvasContext.fillStyle = '#963D5A';
-        canvasContext.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
+        const minIndex = Math.floor(minFrequency / (sampleRate / analyser.fftSize));
+        const maxIndex = Math.floor(maxFrequency / (sampleRate / analyser.fftSize));
 
-        x += barWidth + 1;
-      }
-      
+        const draw = () => {
+            analyser.getByteFrequencyData(dataArray);
 
-      requestAnimationFrame(draw);
-    };
+            canvasContext.clearRect(0, 0, canvas.width, canvas.height);
 
-    draw();
-  }, [analyser]);
+            const barWidth = (canvas.width / (maxIndex - minIndex)) * 2.5;
+            let barHeight;
+            let x = 0;
 
-  return <canvas ref={canvasRef} width="400" height="100"></canvas>;
+            for (let i = minIndex; i <= maxIndex; i++) {
+                barHeight = dataArray[i] / 1.5;
+
+                canvasContext.fillStyle = '#963D5A';
+                canvasContext.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight / 2);
+
+                x += barWidth + 1;
+            }
+
+
+            requestAnimationFrame(draw);
+        };
+
+        draw();
+    }, [analyser]);
+
+    return (
+        <canvas ref={canvasRef} width={canvasWidth} height="100" style={{ width: `${canvasWidth}px` }} />
+    );
 };
 
 export default Waveform;
