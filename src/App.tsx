@@ -59,11 +59,11 @@ const App: React.FC = () => {
             </p>
             <h2>The Fourier Transform</h2>
             <p>
-                The waves above are all in the <b>time domain</b>, easy to recognize since the x-axis represents time. The Fourier Transform is a mathematical technique that converts a signal from the time domain (where the x-axis represents time) to the frequency domain (where the x-axis represents frequency). This allows us to identify the individual frequencies that make up a complex sound wave:
+                The waves above are all in the <b>time domain</b>, easy to recognize since the x-axis represents time. The Fourier Transform is a mathematical technique that converts a signal from the time domain to the frequency domain (where the x-axis represents frequency). This allows us to identify the individual frequencies that make up a complex sound wave:
             </p>
             <img src={fourierSrc} width={450} height={150}></img>
             <p>
-                In the frequency domain, the x-axis are frequencies. We can clearly see that the transformed waveform has two distinct peaks at 770Hz and 1209 Hz. The answering system at the airline recogniyes this, and since every pair of frequencies is unique, they can conclude that the number 4 must have been pressed and will forward you to the complaints department.
+                In the frequency domain, the x-axis are frequencies. We can clearly see that the transformed waveform has two distinct peaks at 770Hz and 1209 Hz. The answering system at the airline recognizes this, and since every pair of frequencies is unique, they can conclude that the number 4 must have been pressed and will forward you to the complaints department.
             </p>
         </div>
     );
